@@ -4,6 +4,7 @@ import { Redirect, Switch, Route, Link } from 'react-router-dom'
 import Dashboard from '../Stocks/Dashboard'
 import Stock from '../Stocks/Stock'
 import About from '../About/About'
+import axios from 'axios'
 
 class App extends Component {
   constructor(props) {
@@ -14,13 +15,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://ga-stocks.herokuapp.com/stocks')
-      .then(data => data.json())
-      .then(jsonFile =>
-        this.setState({
-          stocks: jsonFile
-        })
-      )
+    axios
+      .get('https://ga-stocks.herokuapp.com/stocks')
+      .then(data => this.setState({ stocks: data.data }))
   }
 
   render() {
