@@ -9,9 +9,20 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      stocks: this.props.stocks
+      stocks: []
     }
   }
+
+  componentDidMount() {
+    fetch('https://ga-stocks.herokuapp.com/stocks')
+      .then(data => data.json())
+      .then(jsonFile =>
+        this.setState({
+          stocks: jsonFile
+        })
+      )
+  }
+
   render() {
     return (
       <div className="App">
@@ -29,12 +40,17 @@ class App extends Component {
           <Switch>
             <Route
               path="/stocks/:stock"
-              render={props => <Stock {...this.state} {...props} />}
+              render={props => {
+                let stock = this.state.stocks.find(stock => {
+                  return stock.symbol === props.match.params.stock
+                })
+                return <Stock {...props} stock={stock} />
+              }}
             />
 
             <Route
               path="/stocks"
-              render={props => <Dashboard {...this.state} {...props} />}
+              render={() => <Dashboard {...this.state} />}
             />
             <Route path="/about" component={About} />
             <Redirect to="/stocks" />

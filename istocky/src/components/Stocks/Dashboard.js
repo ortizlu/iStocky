@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import './Dashboard.css'
-import { Redirect, Switch, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Dashboard extends Component {
   render() {
     return (
       <div className="Dashboard">
         {this.props.stocks.map(stock => (
-          <Link to={'/stocks/' + stock.symbol}>
-            <div className="Stock" key={stock.symbol}>
+          <Link key={stock.id} to={'/stocks/' + stock.symbol}>
+            <div className="Stock">
               <h1>{stock.name}</h1>
               <p>{stock.symbol}</p>
             </div>
